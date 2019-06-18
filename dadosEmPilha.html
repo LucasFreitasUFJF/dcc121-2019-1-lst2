@@ -5,6 +5,41 @@
     <title>Dados em Pilha</title>
 </head>
 <body>
-    
+    <h1>Pilha</h1>
+    <form name="pilha">
+        <div><label>Entrada: <input type="text" name="entrada"></label></div>
+        <input type="submit" value="Empilhar">
+    </form>
+
+    <ol></ol>
+    <button id="desempilhar">Desempilhar</button>
+
+    <script>
+        var dadosPilha = [];
+        var lista = document.querySelector("ol");
+
+        var formPilha = document.forms.pilha;
+        formPilha.addEventListener("submit", empilha);
+        function empilha(e){
+            e.preventDefault();
+
+            var entrada = formPilha.entrada.value;
+            if(entrada != "") {
+                dadosPilha.push(entrada);
+                atualizar();
+                formPilha.reset();
+                formPilha.entrada.focus();
+            }
+        }
+
+        function atualizar(){
+            lista.innerHTML = "";
+            for(var i = dadosPilha.length-1; i>=0; i--){
+                var liItem = document.createElement("li");
+                liItem.textContent = dadosPilha[i];
+                lista.appendChild(liItem);
+            }
+        }
+    </script>
 </body>
 </html>
