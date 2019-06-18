@@ -16,7 +16,7 @@
 
     <script>
         var dadosPilha = [];
-        var lista = document.querySelector("ol");
+        var pilha = document.querySelector("ol");
 
         var formPilha = document.forms.pilha;
         formPilha.addEventListener("submit", empilha);
@@ -33,11 +33,20 @@
         }
 
         function atualizar(){
-            lista.innerHTML = "";
+            pilha.innerHTML = "";
             for(var i = dadosPilha.length-1; i>=0; i--){
                 var liItem = document.createElement("li");
                 liItem.textContent = dadosPilha[i];
-                lista.appendChild(liItem);
+                pilha.appendChild(liItem);
+            }
+        }
+
+        var btDesempilha = document.getElementById("desempilhar");
+        btDesempilha.addEventListener("click", desempilha);
+        function desempilha(){
+            if(dadosPilha.length>0){
+                dadosPilha.splice(dadosPilha.length-1, 1);
+                atualizar();
             }
         }
     </script>
