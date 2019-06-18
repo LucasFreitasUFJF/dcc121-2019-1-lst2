@@ -9,7 +9,7 @@
     <form id="compra">
         <div><label>Item: <input type="text" name="item"/></label></div>
         <div><label>Quantidade: <input type="number" name="quantidade"/></label></div>
-        <input type="submit"/>
+        <input type="submit" value="Adicionar"/>
         <input type="reset"/>
     </form>
 
@@ -51,7 +51,11 @@
             }
         }
 
-        
+        var limpar = document.getElementById("apaga");
+        limpar.addEventListener("click", limpaTabela);
+        function limpaTabela(){
+            corpoTabela.textContent = "";
+        }
     </script>
 </body>
 </html>
