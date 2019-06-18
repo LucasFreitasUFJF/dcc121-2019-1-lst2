@@ -25,5 +25,33 @@
         <tfoot></tfoot>
     </table>
     <button id="apaga">Limpar</button>
+
+    <script>
+        var compra = document.forms.compra;
+        var corpoTabela = document.querySelector("tbody");
+
+        compra.addEventListener("submit", processaEnvio);
+        function processaEnvio(e){
+            e.preventDefault();
+            var item = compra.item.value;
+            var quant = compra.quantidade.value;
+
+            if(item.length != 0 && quant.length != 0){
+                var trLinha = document.createElement("tr");
+                var tdItem = document.createElement("td");
+                tdItem.textContent = item;
+                var tdQuant = document.createElement("td");
+                tdQuant.textContent = quant;
+                trLinha.appendChild(tdItem);
+                trLinha.appendChild(tdQuant);
+                corpoTabela.appendChild(trLinha);
+
+                compra.reset();
+                compra.item.focus();
+            }
+        }
+
+        
+    </script>
 </body>
 </html>
