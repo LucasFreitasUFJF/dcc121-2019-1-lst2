@@ -5,6 +5,25 @@
     <title>Listas de Compras</title>
 </head>
 <body>
-    
+    <h1>Listas de Compras</h1>
+    <form id="compra">
+        <div><label>Item: <input type="text" name="item"/></label></div>
+        <div><label>Quantidade: <input type="number" name="quantidade"/></label></div>
+        <input type="submit"/>
+        <input type="reset"/>
+    </form>
+
+    <br/>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>Item</td>
+                <td>Quantidade</td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+    </table>
+    <button id="apaga">Limpar</button>
 </body>
 </html>
