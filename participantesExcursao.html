@@ -7,16 +7,149 @@
 <body>
     <h1>Excursão</h1>
     <form name="excursao">
-        <div><label>Nome: <input type="text" name="nome"/></label></div>
-        <div><label>Idade: <input type="number" name="idade"/></label></div>
-        <input type="submit"/>
-        <div id="excluir"></div>
+        <div><label>Nome: <input type="text" name="nome" required/></label></div>
+        <div><label>Idade: <input type="number" name="idade" required/></label></div>
+        <input type="submit" value="Inserir" name="inserir"/>
+        <input type="button" name="excluir" value="Excluir" />
     </form>
-    <p>Adulto</p>
+
+    <p>Adultos</p>
     <ul></ul>
     <p>Estudantes</p>
     <ul></ul>
 
-    
+    <script>
+        var formExcursao = document.forms.excursao;
+        var btExcluir = formExcursao.excluir;
+        btExcluir.style.display = "none";
+        var listaAdulto = document.getElementsByTagName("ul")[0];
+        var listaEstudante = document.getElementsByTagName("ul")[1];
+
+        var atualizando = 0;
+        var idAt = null;
+        var idIncr = null;
+        var adultos = [];
+        var estudantes = [];
+
+        btExcluir.addEventListener("click", excluir);
+        formExcursao.addEventListener("submit", inserirEatualizar);
+        function inserirEatualizar(e){
+            e.preventDefault();
+            if(!atualizando){
+                var nNome = formExcursao.nome.value;
+                var nIdade = formExcursao.idade.value;
+                if(nIdade >= 18){
+                    var novoParticipante = {"nome": nNome, "idade": nIdade};
+                    adultos.push(novoParticipante);
+                    
+                    atualizaAdulto();
+                } else {
+                    var novoParticipante = {"nome": nNome, "idade": nIdade};
+                    estudantes.push(novoParticipante);
+                    
+                    atualizaEstudante();
+                }
+            } else {
+                var nNome = formExcursao.nome.value;
+                var nIdade = formExcursao.idade.value;
+                if(idIncr == 0){
+                    if(nIdade < 18){
+                        alert("A idade deve ser maior ou igual a 18");
+                    } else {
+                        adultos[idAt].nome = nNome;
+                        adultos[idAt].idade = nIdade;
+                        atualizaAdulto();
+                        formExcursao.reset();
+                        formExcursao.nome.focus();
+                        atualizando = 0;
+                        btExcluir.style.display = "none";
+                        formExcursao.inserir.value = "Inserir";
+                    }
+                } else {
+                    if(nIdade >= 18){
+                        alert("A idade deve ser menor que 18");
+                    } else {
+                        estudantes[idAt].nome = nNome;
+                        estudantes[idAt].idade = nIdade;
+                        atualizaEstudante();
+                        formExcursao.reset();
+                        formExcursao.nome.focus();
+                        atualizando = 0;
+                        btExcluir.style.display = "none";
+                        formExcursao.inserir.value = "Inserir";
+                    }
+                }
+            }
+            formExcursao.reset();
+            formExcursao.nome.focus();
+        }
+
+        function atualizaAdulto(){
+            listaAdulto.innerHTML = "";
+            for(var i=0; i<adultos.length; i++){
+                var nLi = document.createElement("li");
+                var sNome = document.createElement("span");
+                sNome.textContent = adultos[i].nome + " - " + adultos[i].idade;
+                nLi.appendChild(sNome);
+                listaAdulto.appendChild(nLi);
+                nLi.addEventListener("click", criaOuvinteAdulto(i));
+            }
+        }
+
+        function atualizaEstudante(){
+            listaEstudante.innerHTML = "";
+            for(var i=0; i<estudantes.length; i++){
+                var nLi = document.createElement("li");
+                var sNome = document.createElement("span");
+                sNome.textContent = estudantes[i].nome + " - " + estudantes[i].idade;
+                nLi.appendChild(sNome);
+                listaEstudante.appendChild(nLi);
+                nLi.addEventListener("click", criaOuvinteEstudante(i));
+            }
+        }
+
+        function criaOuvinteAdulto(n){
+            return function(){
+                if(!atualizando){
+                    idAt = n;
+                    idIncr = 0;
+                    atualizando = 1;
+                    formExcursao.nome.value = adultos[n].nome;
+                    formExcursao.idade.value = adultos[n].idade;
+                    btExcluir.style.display = "inline";
+                    formExcursao.inserir.value = "Atualizar";
+                }
+            }
+        }
+
+        function criaOuvinteEstudante(n){
+            return function(){
+                if(!atualizando){
+                    idAt = n;
+                    idIncr = 1;
+                    atualizando = 1;
+                    formExcursao.nome.value = estudantes[n].nome;
+                    formExcursao.idade.value = estudantes[n].idade;
+                    btExcluir.style.display = "inline";
+                    formExcursao.inserir.value = "Atualizar";
+                }
+            }
+        }
+
+        function excluir(){
+            if(idIncr == 0){
+                adultos.splice(idAt, 1);
+                atualizaAdulto();
+            } else {
+                estudantes.splice(idAt, 1);
+                atualizaEstudante();
+            }
+            formExcursao.reset();
+            formExcursao.nome.focus();
+            atualizando = 0;
+            btExcluir.style.display = "none";
+            formExcursao.inserir.value = "Inserir";
+        }
+    </script>
 </body>
 </html>
