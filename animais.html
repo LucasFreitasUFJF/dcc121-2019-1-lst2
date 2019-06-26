@@ -5,6 +5,48 @@
     <title>Organizar coleção de Animais</title>
 </head>
 <body>
-    
+    <h1>Coleção de Animais</h1>
+    <form name="animais">
+        <div><label>Animal: <input type="text" name="animal" /></label></div>
+        <div><label>Altura: <input type="number" name="altura" /></label></div>
+        <div><label>Peso: <input type="number" name="peso" /></label></div>
+        <div><label>Velocidade: <input type="number" name="velocidade" /></label></div>
+        <div><label>Idade Máxima: <input type="number" name="idmax" /></label></div>
+        <input type="submit" value="Inserir"/>
+    </form>
+    </br>
+
+    <table border="1px">
+        <thead>
+            <tr>
+                <td>Animal</td>
+                <td>Altura</td>
+                <td>Peso</td>
+                <td>Velocidade</td>
+                <td>Idade Máxima</td>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Média:</td>
+                <td id="medAltura"></td>
+                <td id="medPeso"></td>
+                <td id="medVelocidade"></td>
+                <td id="medIdMaxima"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <ul>
+        <li>Mais Alto: <span id="maisAlto"></span></li>
+        <li>Mais Pesado: <span id="maisPesado"></span></li>
+        <li>Mais Veloz: <span id="maisVeloz"></span></li>
+        <li>Mais Longevo: <span id="maisLongevo"></span></li>
+    </ul>
+
+    <p>Animais com peso acima da média: <span id="animaisAcima"></span></p>
 </body>
 </html>
