@@ -19,11 +19,11 @@
     <table border="1px">
         <thead>
             <tr>
-                <td>Animal</td>
-                <td>Altura</td>
-                <td>Peso</td>
-                <td>Velocidade</td>
-                <td>Idade Máxima</td>
+                <td style="font-weight: bold;">Animal</td>
+                <td style="font-weight: bold;">Altura</td>
+                <td style="font-weight: bold;">Peso</td>
+                <td style="font-weight: bold;">Velocidade</td>
+                <td style="font-weight: bold;">Idade Máxima</td>
             </tr>
         </thead>
         <tbody>
@@ -31,11 +31,11 @@
         </tbody>
         <tfoot>
             <tr>
-                <td>Média:</td>
-                <td id="medAltura"></td>
-                <td id="medPeso"></td>
-                <td id="medVelocidade"></td>
-                <td id="medIdMaxima"></td>
+                <td style="font-weight: bold;">Média:</td>
+                <td id="medAltura" style="font-weight: bold;"></td>
+                <td id="medPeso" style="font-weight: bold;"></td>
+                <td id="medVelocidade" style="font-weight: bold;"></td>
+                <td id="medIdMaxima" style="font-weight: bold;"></td>
             </tr>
         </tfoot>
     </table>
@@ -48,5 +48,119 @@
     </ul>
 
     <p>Animais com peso acima da média: <span id="animaisAcima"></span></p>
+
+    <script>
+        var formAnimais = document.forms.animais;
+        var animais = [];
+        var tbody = document.querySelector("tbody");
+        
+        formAnimais.addEventListener("submit", adicionaAnimal);
+        function adicionaAnimal(e){
+            e.preventDefault();
+            var nAnimal = formAnimais.animal.value;
+            var nAltura = formAnimais.altura.value;
+            var nPeso = formAnimais.peso.value;
+            var nVelocidade = formAnimais.velocidade.value;
+            var nIdMax = formAnimais.idmax.value;
+
+            var novoAnimal = {"animal": nAnimal, "altura": nAltura, "peso": nPeso, "velocidade": nVelocidade, "idMax": nIdMax};
+            animais.push(novoAnimal);
+
+            var trLinha = document.createElement("tr");
+            var tdAnimal = document.createElement("td");
+            tdAnimal.textContent = nAnimal;
+            var tdAltura = document.createElement("td");
+            tdAltura.textContent = nAltura;
+            var tdPeso = document.createElement("td");
+            tdPeso.textContent = nPeso;
+            var tdVelocidade = document.createElement("td");
+            tdVelocidade.textContent = nVelocidade;
+            var tdIdMax = document.createElement("td");
+            tdIdMax.textContent = nIdMax;
+            trLinha.appendChild(tdAnimal);
+            trLinha.appendChild(tdAltura);
+            trLinha.appendChild(tdPeso);
+            trLinha.appendChild(tdVelocidade);
+            trLinha.appendChild(tdIdMax);
+            tbody.appendChild(trLinha);
+
+            animaisAcima();
+            atualizaMaior();
+
+            formAnimais.reset();
+            formAnimais.animal.focus();
+        }
+
+        function atualizaMedia(){
+            var medAltura = 0;
+            var medPeso = 0;
+            var medVelocidade = 0;
+            var medIdMaxima = 0;
+
+            for(var i = 0; i < animais.length; i++){
+                medAltura += Number(animais[i].altura);
+                medPeso += Number(animais[i].peso);
+                medVelocidade += Number(animais[i].velocidade);
+                medIdMaxima += Number(animais[i].idMax);
+            }
+
+            document.getElementById("medAltura").textContent = Number(medAltura) / Number(animais.length);
+            document.getElementById("medPeso").textContent = Number(medPeso) / Number(animais.length);
+            document.getElementById("medVelocidade").textContent = Number(medVelocidade) / Number(animais.length);
+            document.getElementById("medIdMaxima").textContent = Number(medIdMaxima) / Number(animais.length);
+
+            return Number(medPeso) / Number(animais.length);
+        }
+
+        function atualizaMaior(){
+            var maiorAltura = 0;
+            var maiorPeso = 0;
+            var maiorVelocidade = 0;
+            var maiorIdMaxima = 0;
+            if(animais.length > 1){
+                var auxAltura = Number(animais[maiorAltura].altura);
+                var auxPeso = Number(animais[maiorPeso].peso);
+                var auxVelocidade = Number(animais[maiorVelocidade].velocidade);
+                var auxIdMaxima = Number(animais[maiorIdMaxima].idMax);
+
+                for(var i = 1; i < animais.length; i++){
+                    if(auxAltura < Number(animais[i].altura)){
+                        auxAltura = Number(animais[i].altura);
+                        maiorAltura = i;
+                    }
+                    if(auxPeso < Number(animais[i].peso)){
+                        auxPeso = Number(animais[i].peso);
+                        maiorPeso = i;
+                    }
+                    if(auxVelocidade < Number(animais[i].velocidade)){
+                        auxVelocidade = Number(animais[i].velocidade);
+                        maiorVelocidade = i;
+                    }
+                    if(auxIdMaxima < Number(animais[i].idMax)){
+                        auxIdMaxima = Number(animais[i].idMax);
+                        maiorIdMaxima = i;
+                    }
+                }
+            }
+
+            document.getElementById("maisAlto").textContent = animais[maiorAltura].animal;
+            document.getElementById("maisPesado").textContent = animais[maiorPeso].animal;
+            document.getElementById("maisVeloz").textContent = animais[maiorVelocidade].animal;
+            document.getElementById("maisLongevo").textContent = animais[maiorIdMaxima].animal;
+        }
+
+        function animaisAcima(){
+            var media = atualizaMedia();
+            var cont = 0;
+
+            for(var i = 0; i < animais.length; i++){
+                if(animais[i].peso > media){
+                    cont++;
+                }
+            }
+
+            document.getElementById("animaisAcima").textContent = cont;
+        }
+    </script>
 </body>
 </html>
